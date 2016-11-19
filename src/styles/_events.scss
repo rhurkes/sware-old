@@ -1,0 +1,49 @@
+@import 'colors';
+
+#events {
+    color: $text-color;
+
+    li {
+        min-height: 48px;
+        border-top: 1px solid $gray;
+        font-size: 11px;
+        padding: 6px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+
+        .line-left, .line-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .line-text {
+            margin-left: 16px;
+        }
+
+        .line-right {
+            margin-left: 16px;
+        }
+
+        .line-timeago {
+            text-align: right;
+            width: 30px;
+        }
+
+        .line-source {
+            color: $gray3;
+            text-decoration: none;
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        &.ffw {
+            background-color: $dark-green;
+        }
+
+        &.tor {
+            background-color: $dark-red-color
+        }
+    }
+}

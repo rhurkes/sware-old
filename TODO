@@ -1,0 +1,19 @@
+- Is tree shaking even working?
+- Only bring in lodash methods we actually need. Use ramda instead?
+- npm log files keep popping up - how to stop that?
+- switch from hashhistory to browserhistory
+- save all config to localstorage, and load from localstorage.. make sure to safely merge
+- also save all active data sources, and maybe other things besides config (like what?)
+- are react dev tools worth it? what do they do?
+- show next scheduled time for data source buttons
+- make log a separate, secret page only accessible by tilde or button on home page
+- get network stuff working
+- don't autoscroll events, just notify there are new ones
+- add app config page
+- add favicon
+- alternatives to spread operator
+
+--CONFIG ITEMS
+- show/hide nav bar
+- enable geolocation / gps
+- audio alert for new events
