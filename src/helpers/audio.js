@@ -74,7 +74,7 @@ function speak(text) {
   });
 
   if (!processing) {
-    processQueue();
+    // MEOW TODO processQueue();
   }
 }
 

@@ -1,17 +1,25 @@
 import React from 'react';
 import Clock from './clock';
-import FooterStatsContainer from '../containers/footer-stats-container';
 
-const Footer = () =>
-  (
+const Footer = (props) => {
+  const { information } = props;
+  const { lat, lon } = props.geolocation;
+  return (
     <footer>
       <ol className="footer-left">
         <li>
+          <span>{information}</span>
         </li>
       </ol>
       <ol className="footer-right">
         <li>
-          <FooterStatsContainer />
+          <ol id="footer-stats">
+            <li>
+              <span className="teal-color">[</span>
+              <span>{lat}, {lon}</span>
+              <span className="teal-color">]</span>
+            </li>
+          </ol>
         </li>
         <li>
           <Clock />
@@ -19,5 +27,6 @@ const Footer = () =>
       </ol>
     </footer>
   );
+};
 
 export default Footer;

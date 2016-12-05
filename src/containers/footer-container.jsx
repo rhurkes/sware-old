@@ -1,24 +1,27 @@
 import { connect } from 'react-redux';
-import FooterStats from '../components/footer-stats';
-import { getGeolocation } from '../ducks/app-duck';
+import Footer from '../components/footer';
+import { getGeolocation, getStatusbarInfo } from '../ducks/app-duck';
 import mathHelper from '../helpers/math';
 
-const latLonPlaces = 3;
+const latLonDecimalPlaces = 3;
 
 const mapStateToProps = (state) => {
   const rawGeolocation = getGeolocation(state);
   if (!rawGeolocation) { return {}; }
   const { latitude, longitude } = rawGeolocation;
   const geolocation = {
-    lat: mathHelper.round(latitude, latLonPlaces),
-    lon: mathHelper.round(Math.abs(longitude), latLonPlaces),
+    lat: mathHelper.round(latitude, latLonDecimalPlaces),
+    lon: mathHelper.round(Math.abs(longitude), latLonDecimalPlaces),
   };
 
-  return { geolocation };
+  return {
+    geolocation,
+    information: getStatusbarInfo(state),
+  };
 };
 
 const FooterContainer = connect(
   mapStateToProps
-)(FooterStats);
+)(Footer);
 
 export default FooterContainer;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Nav from './nav';
-import Footer from './footer';
+import Footer from '../containers/footer-container';
 import { movePrevPage, moveNextPage } from '../helpers/route';
 import audio from '../helpers/audio';
 import config from '../config';

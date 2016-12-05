@@ -7,6 +7,7 @@ import App from './containers/app-container';
 import Home from './components/home';
 import Events from './containers/pages/events-container';
 import EventsConfig from './containers/pages/events-config-container';
+import SPCMesoanalysis from './containers/pages/spc-mesoanalysis-container';
 import store from './store';
 
 /* Makes the Redux store available to the connect() calls in the component hierarchy below.
@@ -22,6 +23,7 @@ ReactDOM.render((
         <IndexRoute component={Home} />
         <Route path="events" component={Events} />
         <Route path="events-config" component={EventsConfig} />
+        <Route path="spc-mesoanalysis" component={SPCMesoanalysis} />
       </Route>
     </Router>
   </Provider>

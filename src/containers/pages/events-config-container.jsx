@@ -66,13 +66,13 @@ const mapStateToProps = (state) => {
   const timeFilterLabel = getTimeFilterLabel(getTimeFilterMinutes(state));
   const distanceFilterLabel = getDistanceFilterLabel(getDistanceFilterMiles(state));
 
-  return ({
+  return {
     allCWAsOn,
     activeCWAs,
     cwaList: mapCWAsToList(allCWAsOn, activeCWAs),
     timeFilterLabel,
     distanceFilterLabel,
-  });
+  };
 };
 
 const EventsContainer = connect(

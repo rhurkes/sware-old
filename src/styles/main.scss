@@ -1,6 +1,7 @@
 @import 'reset';
 @import 'colors';
 @import 'events';
+@import 'spc-mesoanalysis';
 
 $line-height: 16px;
 $line-2-height: 32px;
@@ -15,7 +16,7 @@ button {
 }
 
 body {
-    background-color: $dark-gray;
+    background-color: $dark-gray-color;
     color: $text-color;
     margin: 0;
     padding: 0;
@@ -92,6 +93,7 @@ header {
 .page {
     padding: 16px 16px 24px 16px;
     margin-top: $line-3-height;
+    height: calc(100vh - 88px);
 }
 
 #polling-toggles {
@@ -129,11 +131,11 @@ header {
 
 .card {
     min-height: 64px;
-    margin-bottom: 32px;
+    margin: 4px 4px 20px 4px;
     width: 100%;
-    border: 1px solid $dark-teal-color;
+    border: 1px solid $gray;
     position: relative;
-    padding: 8px;
+    padding: 12px 8px 8px 8px;
     box-sizing: border-box;
 
     h2 {
@@ -142,14 +144,14 @@ header {
         left: 14px;
         padding: 0 1px;
         font-size: 14px;
-        background: $dark-gray;
+        background: $dark-gray-color;
     }
 }
 
 button {
     min-height: $line-2-height;
     border: 1px solid $gray3;
-    background-color: $dark-gray;
+    background-color: $dark-gray-color;
     color: $gray3;
     cursor: pointer;
     min-width: 64px;

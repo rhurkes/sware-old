@@ -7,17 +7,20 @@ export const getPollingToggles = state => (state.app.polling);
 export const getPages = state => (state.app.pages);
 export const getLogLines = state => (state.app.logLines);
 export const getGeolocation = state => (state.app.geolocation);
+export const getStatusbarInfo = state => (state.app.statusbarInfo);
 
 // ACTIONS
 
 const TOGGLE_POLLING = 'sware/app/TOGGLE_POLLING';
 const ADD_LOG = 'sware/app/ADD_LOG';
+const UPDATE_STATUSBAR_INFO = 'sware/app/UPDATE_STATUSBAR_INFO';
 export const ADD_NETWORK_LOG = 'sware/app/ADD_NETWORK_LOG';
 export const NEW_GEOLOCATION = 'sware/app/NEW_GEOLOCATION';
 
 export const initialState = {
-  pages: ['/', '/events', '/events-config'],
+  pages: ['/', '/events', '/events-config', '/spc-mesoanalysis'],
   logLines: [{ text: `[${timestamp()}] initializing SWARE...` }],
+  statusbarInfo: '',
   networkLogLines: [],
   geolocation: {},
   polling: {
@@ -77,6 +80,11 @@ export default (state = initialState, action = {}) => {
         ...state, networkLogLines,
       };
     }
+    case UPDATE_STATUSBAR_INFO: {
+      return {
+        ...state, statusbarInfo: action.information,
+      };
+    }
     default:
       return state;
   }
@@ -97,5 +105,11 @@ export function togglePolling(source) {
 export function addNetworkLog(url, dataSource, statusCode, networkTime) {
   return (dispatch) => {
     dispatch({ type: ADD_NETWORK_LOG, url, dataSource, statusCode, networkTime });
+  };
+}
+
+export function updateStatusbarInfo(information) {
+  return (dispatch) => {
+    dispatch({ type: UPDATE_STATUSBAR_INFO, information });
   };
 }

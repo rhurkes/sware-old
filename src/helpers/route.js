@@ -13,6 +13,8 @@ export function getTitleFromPath(path) {
       return 'events';
     case '/events-config':
       return 'events config';
+    case '/spc-mesoanalysis':
+      return 'spc mesoanalysis';
     default:
       return path;
   }
