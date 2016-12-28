@@ -4,6 +4,7 @@ import Clock from './clock';
 const Footer = (props) => {
   const { information } = props;
   const { lat, lon } = props.geolocation;
+
   return (
     <footer>
       <ol className="footer-left">

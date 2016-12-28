@@ -7,6 +7,7 @@ import config from '../config';
 
 // Data fetching containers that need to run in background
 import IEMContainer from '../containers/iem-container';
+import SPCMesoanalysisFetcher from '../fetchers/spcMesoanalysisFetcher';
 
 // Utility containers that need to run in background
 import GeolocationContainer from '../containers/geolocation-container';
@@ -52,6 +53,9 @@ export default class App extends React.Component {
 
     // Data fetching containers
     const iemContainer = pollingToggles.iem.active ? <IEMContainer /> : null;
+    const spcMesoanalysisContainer = pollingToggles.spcMesoanalysis.active
+      ? <SpcMesoanalysisContainer />
+      : null;
 
     // Utility containers
     const geolocationContainer = <GeolocationContainer />;  // TODO add config
@@ -68,6 +72,7 @@ export default class App extends React.Component {
         <Nav location={location} />
         {proppedChildren}
         {iemContainer}
+        {spcMesoanalysisContainer}
         {geolocationContainer}
         <Footer />
       </div>

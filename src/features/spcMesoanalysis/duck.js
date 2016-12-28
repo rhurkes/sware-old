@@ -1,5 +1,3 @@
-import { updateStatusbarInfo } from './app-duck';
-
 // SELECTORS
 export const getRefreshInterval = state => state.spcMesoanalysis.refreshInterval;
 export const getTime = state => state.spcMesoanalysis.time;
@@ -7,6 +5,7 @@ export const getParameter = state => state.spcMesoanalysis.parameter;
 export const getSector = state => state.spcMesoanalysis.sector;
 export const getOverlays = state => state.spcMesoanalysis.overlays;
 export const getUnderlay = state => state.spcMesoanalysis.underlay;
+export const getRecentParameters = state => state.spcMesoanalysis.recentParameters;
 
 // ACTIONS
 export const UPDATE_REFRESH_INTERVAL = 'sware/spcMesoanalysis/UPDATE_REFRESH_INTERVAL';
@@ -19,9 +18,9 @@ export const UPDATE_UNDERLAY = 'sware/spcMesoanalysis/UPDATE_UNDERLAY';
 
 // REDUCERS
 export const initialState = {
+  recentParameters: [],
   refreshInterval: 5,
   time: '-0',
-  parameter: { id: 'pmsl', label: 'MSL Pressure/Wind' },
   sector: 19,
   overlays: [],
   underlay: '',
@@ -37,10 +36,15 @@ export default (state = initialState, action = {}) => {
       return {
         ...state, time: action.time,
       };
-    case UPDATE_PARAMETER:
+    case UPDATE_PARAMETER: {
+      const updatedRecentParameters = [].concat(state.recentParameters);
+      updatedRecentParameters.splice(0, 0, action.parameter);
+      // TODO handle this list correctly
+
       return {
-        ...state, parameter: action.parameter,
+        ...state, parameter: action.parameter, recentParameters: updatedRecentParameters,
       };
+    }
     case UPDATE_SECTOR:
       return {
         ...state, sector: action.sector,
@@ -77,10 +81,7 @@ export function updateTime(time) {
 }
 
 export function updateParameter(id, label, desc) {
-  return (dispatch) => {
-    //updateStatusbarInfo(label);
-    dispatch({ type: UPDATE_PARAMETER, parameter: { id, label, desc } });
-  };
+  return { type: UPDATE_PARAMETER, parameter: { id, label, desc } };
 }
 
 export function updateSector(sector) {

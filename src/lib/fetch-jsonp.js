@@ -1,4 +1,4 @@
-// Forked from camsong/fetch-jsonp to add hooks for statistics and simplify
+// Forked from camsong/fetch-jsonp to add hooks for statistics, and simplify
 
 const defaultOptions = {
   timeout: 5000,

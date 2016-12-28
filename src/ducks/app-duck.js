@@ -1,5 +1,6 @@
 import { timestamp } from '../helpers/datetime';
 import config from '../config';
+import { UPDATE_PARAMETER } from './spc-mesoanalysis-duck';
 
 // SELECTORS
 
@@ -34,6 +35,10 @@ export const initialState = {
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
+    // Status bar updates
+    case UPDATE_PARAMETER:
+      console.log(action);
+      return { ...state, statusbarInfo: action.parameter.label };
     case TOGGLE_POLLING: {
       return {
         ...state,
@@ -59,14 +64,10 @@ export default (state = initialState, action = {}) => {
 
       logLines.push(line);
 
-      return {
-        ...state, logLines,
-      };
+      return { ...state, logLines };
     }
     case NEW_GEOLOCATION: {
-      return {
-        ...state, geolocation: action.geolocation,
-      }
+      return { ...state, geolocation: action.geolocation };
     }
     case ADD_NETWORK_LOG: {
       const { url, dataSource, statusCode, networkTime } = action;
@@ -76,15 +77,10 @@ export default (state = initialState, action = {}) => {
 
       networkLogLines.push({ url, dataSource, statusCode, networkTime });
 
-      return {
-        ...state, networkLogLines,
-      };
+      return { ...state, networkLogLines };
     }
-    case UPDATE_STATUSBAR_INFO: {
-      return {
-        ...state, statusbarInfo: action.information,
-      };
-    }
+    case UPDATE_STATUSBAR_INFO:
+      return { ...state, statusbarInfo: action.information };
     default:
       return state;
   }

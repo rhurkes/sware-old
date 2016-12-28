@@ -47,6 +47,9 @@
             }
 
             &.controls {
+                ol {
+                    min-height: 43px;
+                }
                 li:first-child {
                     width: 60px;
                     font-size: 12px;

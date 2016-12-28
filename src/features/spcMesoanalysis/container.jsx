@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
-import SPCMesoanalysis from '../../components/pages/spc-mesoanalysis';
+import SPCMesoanalysis from './component';
 import {
   getTime,
   getParameter,
   getSector,
   getOverlays,
   getUnderlay,
+  getRecentParameters,
   updateRefreshInterval,
   updateTime,
   updateParameter,
@@ -13,7 +14,7 @@ import {
   addOverlay,
   removeOverlay,
   updateUnderlay,
-} from '../../ducks/spc-mesoanalysis-duck';
+} from './duck';
 
 const mapStateToProps = state => ({
   selectedTime: getTime(state),
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   sector: getSector(state),
   overlays: getOverlays(state),
   underlay: getUnderlay(state),
+  recentParameters: getRecentParameters(state),
 });
 
 const SPCMesoanalysisContainer = connect(

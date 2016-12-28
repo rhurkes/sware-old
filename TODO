@@ -18,3 +18,7 @@
 - enable geolocation / gps
 - audio alert for new events
 - dual paramaters on SPC mesoanalysis
+
+--UPDATES
+- Webpack 2 final
+- React-Redux 5.0

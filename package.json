@@ -29,6 +29,7 @@
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^3.0.0-beta.17",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-object-rest-spread": "^6.16.0",
@@ -40,6 +41,8 @@
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.4.1",
     "node-sass": "^3.10.1",
+    "source-map-loader": "^0.1.5",
+    "typescript": "^2.1.4",
     "webpack": "^2.1.0-beta.25",
     "webpack-dev-server": "^2.1.0-beta.8"
   }

@@ -1,20 +1,9 @@
 import React from 'react';
-import Card from '../card';
+import Card from '../../components/card';
 
 // TODO image placeholder http://stackoverflow.com/questions/8987428/image-placeholder
 
-const spcImageBase = 'http://www.spc.noaa.gov/exper/mesoanalysis';
-const timerInterval = 60 * 1000;
-let timer;
-
-function buildImageURL(sector, parameterID) {
-  const now = new Date();
-  now.setSeconds(0);
-  now.setMilliseconds(0);
-  const parameter = parameterID.toLowerCase();
-
-  return `${spcImageBase}/s${sector}/${parameter}/${parameter}.gif?${now.getTime()}`;
-}
+const defaultParameter = { id: 'TTD', label: 'Temp/Wind/Dwpt' };
 
 class SPCMesoanalysis extends React.Component {
   constructor() {
@@ -24,18 +13,7 @@ class SPCMesoanalysis extends React.Component {
     };
   }
 
-  componentDidMount() {
-    timer = setInterval(() => {
-      // this.props.updateMessagesTimeAgo();
-    }, timerInterval);
-  }
-
-  componentWillUnmount() {
-    clearInterval(timer);
-  }
-
   toggleParametersDrawer(override) {
-    // TODO BAD - don't set state directly, just spiking here!
     const newDrawerState = (typeof override !== 'undefined')
       ? override
       : !this.state.parametersDrawerOpen;
@@ -43,19 +21,19 @@ class SPCMesoanalysis extends React.Component {
   }
 
   render() {
-    const { parameter, sector, updateParameter, updateSector, updateRefresh } = this.props;
-    const testURL = buildImageURL(sector, parameter.id);
+    const {
+      parameter, recentParameters, sector, updateParameter, updateSector, updateRefresh,
+    } = this.props;
 
     let parametersLabel = 'Parameters >';
     let parametersClass = 'open';
-    let parametersClosedText = null;
 
     if (!this.state.parametersDrawerOpen) {
       parametersLabel = '< Parameters';
       parametersClass = 'closed';
-      parametersClosedText = <span>Expand to view</span>;
     }
 
+    // TODO have separate mapping file for these
     const allParameters = [
       <li><button className="observations" onClick={() => updateParameter('BIGSFC', 'Surface Observations')}>BIGSFC</button></li>,
       <li><button className="observations" onClick={() => updateParameter('1KMV', 'Visible Satellite')}>1KMV</button></li>,
@@ -71,10 +49,10 @@ class SPCMesoanalysis extends React.Component {
       <li><button className="surface" onClick={() => updateParameter('DVVR', 'Divergence and Vorticity (sfc)')}>DVVR</button></li>,
       <li><button className="surface" onClick={() => updateParameter('DEF', 'Deformation and Axes of Dilitation (sfc)')}>DEF</button></li>,
       <li><button className="surface" onClick={() => updateParameter('PCHG', '2-hour Pressure Change')}>PCHG</button></li>,
-      <li><button className="surface" onClick={() => updateParameter('TEMPCHG', '3-hour Temp Change')}>TEMPCHG</button></li>,
-      <li><button className="surface" onClick={() => updateParameter('DWPTCHG', '3-hour Dwpt Change')}>DWPTCHG</button></li>,
-      <li><button className="surface" onClick={() => updateParameter('MIXRCHG', '3-hour 100mb Mixing Ratio Change')}>MIXRCHG</button></li>,
-      <li><button className="surface" onClick={() => updateParameter('THTECHG', '3-hour Theta-E Change')}>THTECHG</button></li>,
+      <li><button className="surface" onClick={() => updateParameter('TEMP_CHG', '3-hour Temp Change')}>TEMPCHG</button></li>,
+      <li><button className="surface" onClick={() => updateParameter('DWPT_CHG', '3-hour Dwpt Change')}>DWPTCHG</button></li>,
+      <li><button className="surface" onClick={() => updateParameter('MIXR_CHG', '3-hour 100mb Mixing Ratio Change')}>MIXRCHG</button></li>,
+      <li><button className="surface" onClick={() => updateParameter('THTE_CHG', '3-hour Theta-E Change')}>THTECHG</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('925MB', '925mb Analysis')}>925MB</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('850MB', '850mb Analysis')}>850MB</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('700MB', '700mb Analysis')}>700MB</button></li>,
@@ -95,7 +73,7 @@ class SPCMesoanalysis extends React.Component {
       <li><button className="upper-air" onClick={() => updateParameter('PADV', '400-250mb Pot. Vorticity Advection')}>PADV</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('DDIV', '850-250mb Diff. Divergence')}>DDIV</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('AGEO', '300mb Jet Circulation')}>AGEO</button></li>,
-      <li><button className="upper-air" onClick={() => updateParameter('500MBCHG', '12-hour 500mb Height Change')}>500MBCHG</button></li>,
+      <li><button className="upper-air" onClick={() => updateParameter('500MB_CHG', '12-hour 500mb Height Change')}>500MBCHG</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('TRAP500', 'Fluid Trapping (500mb)')}>TRAP500</button></li>,
       <li><button className="upper-air" onClick={() => updateParameter('TRAP250', 'Fluid Trapping (250mb)')}>TRAP250</button></li>,
       <li><button className="thermodynamics" onClick={() => updateParameter('SBCP', 'CAPE - Surface-Based')}>SBCP</button></li>,
@@ -109,12 +87,12 @@ class SPCMesoanalysis extends React.Component {
       <li><button className="thermodynamics" onClick={() => updateParameter('LCLH', 'LCL Height')}>LCLH</button></li>,
       <li><button className="thermodynamics" onClick={() => updateParameter('LFCH', 'LFC Height')}>LFCH</button></li>,
       <li><button className="thermodynamics" onClick={() => updateParameter('LFRH', 'LCL-LFC Mean RH')}>LFRH</button></li>,
-      <li><button className="thermodynamics" onClick={() => updateParameter('SBCPCHG', '3-hour Surface-Based CAPE Change')}>SBCPCHG</button></li>,
-      <li><button className="thermodynamics" onClick={() => updateParameter('SBCNCHG', '3-hour Surface-Based CIN Change')}>SBCNCHG</button></li>,
-      <li><button className="thermodynamics" onClick={() => updateParameter('MLCPCHG', '3-hour 100mb Mixed-Layer CAPE Change')}>MLCPCHG</button></li>,
-      <li><button className="thermodynamics" onClick={() => updateParameter('MUCPCHG', '3-hour Most-Unstable CAPE Change')}>MUCPCHG</button></li>,
-      <li><button className="thermodynamics" onClick={() => updateParameter('LLLRCHG', '3-hour Low-Level LR Change')}>LLLRCHG</button></li>,
-      <li><button className="thermodynamics" onClick={() => updateParameter('LAPSCHG', '6-hour Mid-Level LR Change')}>LAPSCHG</button></li>,
+      <li><button className="thermodynamics" onClick={() => updateParameter('SBCP_CHG', '3-hour Surface-Based CAPE Change')}>SBCPCHG</button></li>,
+      <li><button className="thermodynamics" onClick={() => updateParameter('SBCN_CHG', '3-hour Surface-Based CIN Change')}>SBCNCHG</button></li>,
+      <li><button className="thermodynamics" onClick={() => updateParameter('MLCP_CHG', '3-hour 100mb Mixed-Layer CAPE Change')}>MLCPCHG</button></li>,
+      <li><button className="thermodynamics" onClick={() => updateParameter('MUCP_CHG', '3-hour Most-Unstable CAPE Change')}>MUCPCHG</button></li>,
+      <li><button className="thermodynamics" onClick={() => updateParameter('LLLR_CHG', '3-hour Low-Level LR Change')}>LLLRCHG</button></li>,
+      <li><button className="thermodynamics" onClick={() => updateParameter('LAPS_CHG', '6-hour Mid-Level LR Change')}>LAPSCHG</button></li>,
       <li><button className="wind-shear" onClick={() => updateParameter('ESHR', 'Bulk Shear - Effective')}>ESHR</button></li>,
       <li><button className="wind-shear" onClick={() => updateParameter('SHR6', 'Bulk Shear - Sfc-6km')}>SHR6</button></li>,
       <li><button className="wind-shear" onClick={() => updateParameter('SHR8', 'Bulk Shear - Sfc-8km')}>SHR8</button></li>,
@@ -129,9 +107,9 @@ class SPCMesoanalysis extends React.Component {
       <li><button className="wind-shear" onClick={() => updateParameter('ALSR', 'SR Wind - Anvil Level')}>ALSR</button></li>,
       <li><button className="wind-shear" onClick={() => updateParameter('MNWD', '850-300mb Mean Wind')}>MNWD</button></li>,
       <li><button className="wind-shear" onClick={() => updateParameter('XOVER', '850 and 500mb Winds')}>XOVER</button></li>,
-      <li><button className="wind-shear" onClick={() => updateParameter('SRH3CHG', '3hr Sfc-3km SR Helicity Change')}>SRH3CHG</button></li>,
-      <li><button className="wind-shear" onClick={() => updateParameter('SHR1CHG', '3hr Sfc-1km Bulk Shear Change')}>SHR1CHG</button></li>,
-      <li><button className="wind-shear" onClick={() => updateParameter('SHR6CHG', '3hr Sfc-6km Bulk Shear Change')}>SHR6CHG</button></li>,
+      <li><button className="wind-shear" onClick={() => updateParameter('SRH3_CHG', '3hr Sfc-3km SR Helicity Change')}>SRH3CHG</button></li>,
+      <li><button className="wind-shear" onClick={() => updateParameter('SHR1_CHG', '3hr Sfc-1km Bulk Shear Change')}>SHR1CHG</button></li>,
+      <li><button className="wind-shear" onClick={() => updateParameter('SHR6_CHG', '3hr Sfc-6km Bulk Shear Change')}>SHR6CHG</button></li>,
       <li><button className="composite-indices" onClick={() => updateParameter('SCP', 'Supercell Composite')}>SCP</button></li>,
       <li><button className="composite-indices" onClick={() => updateParameter('LSCP', 'Supercell Composite (left-moving)')}>LSCP</button></li>,
       <li><button className="composite-indices" onClick={() => updateParameter('STOR', 'Sgfnt Tornado (fixed layer)')}>STOR</button></li>,
@@ -195,6 +173,15 @@ class SPCMesoanalysis extends React.Component {
       <li><button className="beta" onClick={() => updateParameter('PVSTPE', '*New* Prob EF4+ (conditional on RM supercell)')}>PVSTPE</button></li>,
     ];
 
+    const recentParameterButtons = recentParameters.map((param, index) =>
+      <li key={index}>
+        <button onClick={() => updateParameter(param.id, param.label)}>{param.id}</button>
+      </li>,
+    );
+
+    // TODO ignore jsx a11y rule for img click
+    
+
     return (
       <div className="page spc-mesoanalysis">
         <div className="display">
@@ -214,9 +201,7 @@ class SPCMesoanalysis extends React.Component {
               </ol>
               <ol>
                 <li>Recent</li>
-                <li><button onClick={() => null}>TTD</button></li>
-                <li><button onClick={() => null}>SHR8</button></li>
-                <li><button onClick={() => null}>LLLR</button></li>
+                {recentParameterButtons}
               </ol>
               <ol>
                 <li>Observed</li>
@@ -272,7 +257,6 @@ class SPCMesoanalysis extends React.Component {
             className={parametersClass}
             tabFunction={() => this.toggleParametersDrawer()}
           >
-            {parametersClosedText}
             <ol>
               {allParameters}
             </ol>

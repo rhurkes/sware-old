@@ -7,12 +7,11 @@ const latLonDecimalPlaces = 3;
 
 const mapStateToProps = (state) => {
   const rawGeolocation = getGeolocation(state);
-  if (!rawGeolocation) { return {}; }
   const { latitude, longitude } = rawGeolocation;
-  const geolocation = {
+  const geolocation = latitude && longitude ? {
     lat: mathHelper.round(latitude, latLonDecimalPlaces),
     lon: mathHelper.round(Math.abs(longitude), latLonDecimalPlaces),
-  };
+  } : {};
 
   return {
     geolocation,
